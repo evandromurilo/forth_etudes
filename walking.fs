@@ -1,0 +1,32 @@
+: MAX-Y 20 ;
+: MIN-Y 1 ;
+: MAX-X 20 ;
+: MIN-X 1 ;
+
+: CAN-MOVE-DOWN ( x y -- bool )
+    DUP MAX-Y < ;
+: CAN-MOVE-UP ( x y -- bool )
+    DUP MIN-Y > ;
+: CAN-MOVE-LEFT ( x y -- bool )
+    OVER MIN-X > ;
+: CAN-MOVE-RIGHT ( x y -- bool )
+    OVER MAX-X < ;
+
+: SKIP-LINES 0 DO CR LOOP ;
+: SKIP-COLS 0 DO 32 EMIT LOOP ;
+
+: RENDER ( x y )
+    PAGE DUP SKIP-LINES OVER SKIP-COLS 35 EMIT CR ;
+
+: BEGIN 1 1 RENDER ;
+
+: DOWN CAN-MOVE-DOWN IF 1 + THEN RENDER ;
+: D DOWN ;
+: UP CAN-MOVE-UP IF 1 - THEN RENDER ;
+: U UP ;
+: LEFT CAN-MOVE-LEFT IF SWAP 1 - SWAP THEN RENDER ;
+: L LEFT ;
+: RIGHT CAN-MOVE-RIGHT IF SWAP 1 + SWAP THEN RENDER ;
+: R RIGHT ;
+
+BEGIN
